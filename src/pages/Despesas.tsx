@@ -1,0 +1,132 @@
+import React from "react";
+import { Building2, Users2, FileText, PartyPopper, Stethoscope } from "lucide-react";
+import PageHeader from "@/components/dashboard/PageHeader";
+import DataTable from "@/components/dashboard/DataTable";
+import PieChartCard from "@/components/dashboard/PieChartCard";
+import BarChartCard from "@/components/dashboard/BarChartCard";
+import KPICard from "@/components/dashboard/KPICard";
+import { DADOS_COOPERATIVA, formatarMoeda } from "@/components/dashboard/mockData";
+
+export default function Despesas() {
+  const dados = DADOS_COOPERATIVA;
+  const despesas = dados.despesasAdministrativas;
+  const totalReceita = dados.receitaOperacionalBruta;
+
+  const icones: Record<string, any> = {
+    Administrativas: FileText,
+    Pessoal: Users2,
+    Eventos: PartyPopper,
+    "Assistência médica": Stethoscope,
+  };
+
+  const cores: Record<string, string> = {
+    Administrativas: "from-blue-400 to-blue-500",
+    Pessoal: "from-purple-400 to-purple-500",
+    Eventos: "from-amber-400 to-amber-500",
+    "Assistência médica": "from-emerald-400 to-emerald-500",
+  };
+
+  return (
+    <div className="space-y-8">
+      <PageHeader
+        titulo="Despesas Administrativas"
+        subtitulo="Detalhamento dos gastos com estrutura administrativa, pessoal e eventos"
+        icone={Building2}
+        badges={[
+          { texto: `${despesas.items.length} Categorias`, className: "bg-indigo-100 text-indigo-700 border-indigo-200" },
+        ]}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <KPICard
+          titulo="Total Despesas Admin."
+          valor={formatarMoeda(despesas.total)}
+          subtitulo={`${((despesas.total / totalReceita) * 100).toFixed(2)}% da receita`}
+          icone={Building2}
+          tipo="neutro"
+          destaque={true}
+        />
+        <KPICard
+          titulo="Despesas Administrativas"
+          valor={formatarMoeda(391920.06)}
+          subtitulo={`${((391920.06 / despesas.total) * 100).toFixed(1)}% do total`}
+          icone={FileText}
+          tipo="neutro"
+        />
+        <KPICard
+          titulo="Despesas com Pessoal"
+          valor={formatarMoeda(198362.01)}
+          subtitulo={`${((198362.01 / despesas.total) * 100).toFixed(1)}% do total`}
+          icone={Users2}
+          tipo="neutro"
+        />
+        <KPICard
+          titulo="Eventos + Assistência"
+          valor={formatarMoeda(31145.79)}
+          subtitulo="Benefícios e integração"
+          icone={PartyPopper}
+          tipo="neutro"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {despesas.items.map((item, index) => {
+          const Icone = icones[item.nome] || FileText;
+          const cor = cores[item.nome] || "from-slate-400 to-slate-500";
+          const percentual = (item.valor / despesas.total) * 100;
+
+          return (
+            <div
+              key={index}
+              className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${cor} flex items-center justify-center mb-4`}>
+                <Icone className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-semibold text-slate-800 mb-1">{item.nome}</h4>
+              <p className="text-2xl font-bold text-slate-900 mb-2">{formatarMoeda(item.valor)}</p>
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div className={`h-full bg-gradient-to-r ${cor} rounded-full`} style={{ width: `${percentual}%` }} />
+              </div>
+              <p className="text-xs text-slate-500 mt-2">{percentual.toFixed(1)}% das despesas administrativas</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PieChartCard
+          titulo="Composição das Despesas"
+          subtitulo="Distribuição por categoria"
+          dados={despesas.items}
+          total={despesas.total}
+        />
+        <BarChartCard titulo="Comparativo de Despesas" subtitulo="Valores por categoria (em R$)" dados={despesas.items} horizontal={false} />
+      </div>
+
+      <DataTable
+        dados={despesas.items}
+        colunas={[
+          { titulo: "Categoria" },
+          { titulo: "Valor (R$)", alinhamento: "direita" },
+          { titulo: "% do Total", alinhamento: "direita" },
+          { titulo: "Status", alinhamento: "centro" },
+        ]}
+        total={despesas.total}
+        totalLabel="Total de Despesas Administrativas"
+        mostrarPercentual={true}
+        valorReferencia={despesas.total}
+      />
+
+      <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-6">
+        <h4 className="font-semibold text-indigo-800 mb-2">📊 Análise de Eficiência</h4>
+        <p className="text-indigo-700">
+          As despesas administrativas representam apenas <strong>{((despesas.total / totalReceita) * 100).toFixed(2)}%</strong> da
+          receita bruta, indicando uma gestão enxuta. A maior parte (<strong>{((391920.06 / despesas.total) * 100).toFixed(1)}%</strong>)
+          está concentrada em despesas administrativas gerais, seguida por gastos com pessoal
+          (<strong>{((198362.01 / despesas.total) * 100).toFixed(1)}%</strong>).
+        </p>
+      </div>
+    </div>
+  );
+}
