@@ -1,5 +1,4 @@
-// src/App.tsx
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Sidebar from "./components/dashboard/Sidebar";
@@ -21,20 +20,19 @@ export default function App() {
   // Sidebar: w-72 (288px) ou w-20 (80px)
   const sidebarWidth = collapsed ? 80 : 288;
 
-  // ✅ Respiro entre sidebar e conteúdo (evita "colado na parede")
-  const contentGap = collapsed ? 12 : 16;
+  // CSS var p/ usar no Tailwind (lg:ml-[var(--sidebar-w)])
+  const shellStyle = useMemo(
+    () => ({ ["--sidebar-w" as any]: `${sidebarWidth}px` }),
+    [sidebarWidth]
+  );
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50" style={shellStyle}>
       <Sidebar paginaAtual={pathname} collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      {/* Área do conteúdo */}
-      <main
-        className="min-h-screen"
-        // ✅ margin-left = largura sidebar + gap
-        style={{ marginLeft: sidebarWidth + contentGap }}
-      >
-        <div className="p-6 lg:p-8">
+      {/* Área do conteúdo: no MOBILE não aplica margem; no DESKTOP aplica */}
+      <main className="min-h-screen lg:ml-[var(--sidebar-w)]">
+        <div className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
           <Routes>
             {/* Home */}
             <Route path="/" element={<Home />} />

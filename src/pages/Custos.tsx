@@ -17,14 +17,14 @@ export default function Custos() {
 
   const icones: Record<string, any> = {
     "Repasse aos cooperados": HandCoins,
-    "Alimentação": Utensils,
+    Alimentação: Utensils,
     "Seguro de vida": Shield,
     "Uniformes e EPIs": Shirt,
     "Serviços PJ (treinamentos, assessorias etc.)": Briefcase,
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <PageHeader
         titulo="Custos – Atos Cooperados"
         subtitulo="Detalhamento dos custos relacionados às operações cooperativas e benefícios aos profissionais"
@@ -34,7 +34,7 @@ export default function Custos() {
         ]}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
           titulo="Total Custos Cooperados"
           valor={formatarMoeda(custos.total)}
@@ -66,23 +66,25 @@ export default function Custos() {
         />
       </div>
 
-      <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-8 text-white shadow-lg shadow-emerald-500/20">
+      <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-5 sm:p-6 lg:p-8 text-white shadow-lg shadow-emerald-500/20">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-3 bg-white/20 rounded-xl">
                 <HandCoins className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold">Repasse aos Cooperados</h3>
+              <h3 className="text-lg sm:text-xl font-bold">Repasse aos Cooperados</h3>
             </div>
-            <p className="text-emerald-100 max-w-xl">
-              Valor total distribuído diretamente aos profissionais enfermeiros cooperados
-              pelos serviços prestados através da cooperativa.
+            <p className="text-emerald-100 max-w-xl text-sm sm:text-base">
+              Valor total distribuído diretamente aos profissionais enfermeiros cooperados pelos serviços prestados através da cooperativa.
             </p>
           </div>
-          <div className="text-right">
-            <p className="text-4xl lg:text-5xl font-bold">{formatarMoeda(repasse.valor)}</p>
-            <p className="text-emerald-200 mt-2">
+
+          <div className="min-w-0 text-left lg:text-right">
+            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold break-words">
+              {formatarMoeda(repasse.valor)}
+            </p>
+            <p className="text-emerald-200 mt-2 text-sm sm:text-base">
               {((repasse.valor / totalReceita) * 100).toFixed(1)}% da receita bruta
             </p>
           </div>
@@ -98,32 +100,36 @@ export default function Custos() {
           destaquePrimeiro={true}
         />
 
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">Outros Custos Cooperados</h3>
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+          <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-6">Outros Custos Cooperados</h3>
 
           <div className="space-y-4">
             {outrosCustos.map((item, index) => {
               const Icone = icones[item.nome] || Briefcase;
-              const percentual = (item.valor / totalOutros) * 100;
+              const percentual = totalOutros > 0 ? (item.valor / totalOutros) * 100 : 0;
 
               return (
                 <div key={index} className="p-4 bg-slate-50 rounded-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-start sm:items-center justify-between gap-3 mb-3">
+                    <div className="flex items-center gap-3 min-w-0">
                       <div className="p-2 bg-white rounded-lg shadow-sm">
                         <Icone className="w-4 h-4 text-slate-600" />
                       </div>
-                      <span className="font-medium text-slate-800">{item.nome}</span>
+                      <span className="font-medium text-slate-800 truncate">{item.nome}</span>
                     </div>
-                    <span className="font-bold text-slate-900">{formatarMoeda(item.valor)}</span>
+                    <span className="font-bold text-slate-900 tabular-nums whitespace-nowrap">
+                      {formatarMoeda(item.valor)}
+                    </span>
                   </div>
+
                   <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full"
-                      style={{ width: `${percentual}%` }}
+                      style={{ width: `${Math.min(100, Math.max(0, percentual))}%` }}
                     />
                   </div>
-                  <div className="mt-2 flex justify-between text-xs text-slate-500">
+
+                  <div className="mt-2 flex flex-col sm:flex-row sm:justify-between gap-1 text-xs text-slate-500">
                     <span>{percentual.toFixed(1)}% dos outros custos</span>
                     <span>{((item.valor / custos.total) * 100).toFixed(2)}% do total</span>
                   </div>
@@ -149,13 +155,11 @@ export default function Custos() {
         destaquePrimeiro={true}
       />
 
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 sm:p-6">
         <h4 className="font-semibold text-emerald-800 mb-2">📊 Análise de Distribuição</h4>
-        <p className="text-emerald-700">
-          A cooperativa destina <strong>{((repasse.valor / custos.total) * 100).toFixed(1)}%</strong> dos custos cooperados
-          diretamente aos profissionais, demonstrando forte compromisso com a valorização dos cooperados.
-          Os benefícios complementares (alimentação, seguro, EPIs e capacitação) representam
-          <strong> {((totalOutros / custos.total) * 100).toFixed(1)}%</strong> dos custos.
+        <p className="text-emerald-700 text-sm sm:text-base">
+          A cooperativa destina <strong>{((repasse.valor / custos.total) * 100).toFixed(1)}%</strong> dos custos cooperados diretamente aos profissionais.
+          Os benefícios complementares representam <strong> {((totalOutros / custos.total) * 100).toFixed(1)}%</strong> dos custos.
         </p>
       </div>
     </div>

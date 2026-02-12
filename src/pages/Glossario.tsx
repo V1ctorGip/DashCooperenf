@@ -26,7 +26,7 @@ export default function Glossario() {
   const letras = useMemo(() => Object.keys(termosAgrupados).sort(), [termosAgrupados]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <PageHeader
         titulo="Glossário Financeiro"
         subtitulo="Explicações simples dos termos técnicos utilizados neste dashboard"
@@ -34,14 +34,14 @@ export default function Glossario() {
         badges={[{ texto: `${GLOSSARIO.length} Termos`, className: "bg-teal-100 text-teal-700 border-teal-200" }]}
       />
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-sm">
         <div className="relative max-w-xl mx-auto">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
             placeholder="Buscar termos ou definições..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="pl-12 h-12 text-lg rounded-xl"
+            className="pl-12 h-11 sm:h-12 text-base sm:text-lg rounded-xl"
           />
         </div>
       </div>
@@ -51,7 +51,7 @@ export default function Glossario() {
           <a
             key={letra}
             href={`#letra-${letra}`}
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-100 hover:text-blue-600 font-semibold text-slate-600 transition-colors"
+            className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-100 hover:text-blue-600 font-semibold text-slate-600 transition-colors"
           >
             {letra}
           </a>
@@ -62,7 +62,7 @@ export default function Glossario() {
         {letras.map((letra) => (
           <div key={letra} id={`letra-${letra}`}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg sm:text-xl">
                 {letra}
               </div>
               <div className="h-px flex-1 bg-slate-200" />
@@ -72,17 +72,17 @@ export default function Glossario() {
               {termosAgrupados[letra].map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all hover:border-blue-200 group"
+                  className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-all hover:border-blue-200 group"
                 >
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
                       <Info className="w-4 h-4 text-blue-600" />
                     </div>
-                    <div>
-                      <h4 className="font-bold text-slate-800 text-lg mb-2 group-hover:text-blue-600 transition-colors">
+                    <div className="min-w-0">
+                      <h4 className="font-bold text-slate-800 text-base sm:text-lg mb-2 group-hover:text-blue-600 transition-colors break-words">
                         {item.termo}
                       </h4>
-                      <p className="text-slate-600 leading-relaxed">{item.definicao}</p>
+                      <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{item.definicao}</p>
                     </div>
                   </div>
                 </div>
@@ -102,11 +102,10 @@ export default function Glossario() {
         </div>
       )}
 
-      <div className="bg-teal-50 border border-teal-200 rounded-2xl p-6">
+      <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5 sm:p-6">
         <h4 className="font-semibold text-teal-800 mb-2">💡 Dica</h4>
-        <p className="text-teal-700">
+        <p className="text-teal-700 text-sm sm:text-base">
           Passe o mouse sobre os ícones de informação (ℹ️) nos KPIs do dashboard para ver explicações rápidas de cada indicador.
-          Este glossário complementa essas informações com definições mais detalhadas.
         </p>
       </div>
     </div>

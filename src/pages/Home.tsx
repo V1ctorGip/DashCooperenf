@@ -13,7 +13,7 @@ export default function Home() {
   const percentualRepasse = (dados.custosAtosCooperados.items[0].valor / dados.receitaOperacionalBruta) * 100;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <PageHeader
         titulo="Visão Geral"
         subtitulo="Dashboard consolidado com os principais indicadores financeiros no ano de 2025"
@@ -22,7 +22,7 @@ export default function Home() {
         alertaTexto="Inconsistência no período"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
           titulo="Receita Bruta"
           valor={formatarMoeda(dados.receitaOperacionalBruta)}
@@ -58,7 +58,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <KPICard
           titulo="Repasse aos Cooperados"
           valor={formatarMoeda(dados.custosAtosCooperados.items[0].valor)}
@@ -86,34 +86,34 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 min-w-0">
           <WaterfallChart dados={totais} />
         </div>
-        <div>
+        <div className="min-w-0">
           <RankingList dados={dados.receitasPorContratante} total={dados.receitaOperacionalBruta} limite={5} />
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 text-white">
-        <h3 className="text-xl font-bold mb-4">Resumo Executivo</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 sm:p-6 lg:p-8 text-white">
+        <h3 className="text-lg sm:text-xl font-bold mb-4">Resumo Executivo</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+          <div className="min-w-0">
             <p className="text-slate-400 text-sm mb-1">Receita Total</p>
-            <p className="text-2xl font-bold text-emerald-400">{formatarMoeda(dados.receitaOperacionalBruta)}</p>
+            <p className="text-xl sm:text-2xl font-bold text-emerald-400 break-words">{formatarMoeda(dados.receitaOperacionalBruta)}</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-slate-400 text-sm mb-1">Total Deduções</p>
-            <p className="text-2xl font-bold text-rose-400">
+            <p className="text-xl sm:text-2xl font-bold text-rose-400 break-words">
               {formatarMoeda(dados.impostosIncidencias.total + dados.custosAtosCooperados.total + dados.despesasAdministrativas.total)}
             </p>
           </div>
           <div>
             <p className="text-slate-400 text-sm mb-1">% Retido Cooperados</p>
-            <p className="text-2xl font-bold text-blue-400">{percentualRepasse.toFixed(1)}%</p>
+            <p className="text-xl sm:text-2xl font-bold text-blue-400">{percentualRepasse.toFixed(1)}%</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-slate-400 text-sm mb-1">Resultado Final</p>
-            <p className="text-2xl font-bold text-amber-400">-{formatarMoeda(dados.resultadoReservas.perdasPeriodo)}</p>
+            <p className="text-xl sm:text-2xl font-bold text-amber-400 break-words">-{formatarMoeda(dados.resultadoReservas.perdasPeriodo)}</p>
           </div>
         </div>
       </div>

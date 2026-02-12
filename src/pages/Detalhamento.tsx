@@ -17,17 +17,13 @@ type Linha = {
 };
 
 export default function Detalhamento() {
-  const [filtro, setFiltro] = useState<"todos" | "receita" | "impostos" | "custos" | "despesas" | "resultado">(
-    "todos"
-  );
+  const [filtro, setFiltro] = useState<"todos" | "receita" | "impostos" | "custos" | "despesas" | "resultado">("todos");
   const [busca, setBusca] = useState<string>("");
 
   const dados = DADOS_COOPERATIVA;
 
-  // Consolidar todos os dados em uma tabela única (TIPADO como Linha[])
   const todosOsDados: Linha[] = useMemo(() => {
     const linhas: Linha[] = [
-      // Receitas
       ...dados.receitasPorContratante.map((item) => ({
         categoria: "Receita" as const,
         subcategoria: "Receita por Contratante",
@@ -36,21 +32,15 @@ export default function Detalhamento() {
         tipo: "positivo" as const,
         status: "ok" as const,
       })),
-      // Impostos
       ...dados.impostosIncidencias.items.map((item) => ({
         categoria: "Impostos" as const,
         subcategoria:
-          item.tipo === "imposto"
-            ? "Tributos"
-            : item.tipo === "financeiro"
-            ? "Despesas Financeiras"
-            : "Despesas Tributárias",
+          item.tipo === "imposto" ? "Tributos" : item.tipo === "financeiro" ? "Despesas Financeiras" : "Despesas Tributárias",
         descricao: item.nome,
         valor: item.valor,
         tipo: "negativo" as const,
         status: "ok" as const,
       })),
-      // Custos
       ...dados.custosAtosCooperados.items.map((item) => ({
         categoria: "Custos" as const,
         subcategoria: "Atos Cooperados",
@@ -59,7 +49,6 @@ export default function Detalhamento() {
         tipo: "negativo" as const,
         status: "ok" as const,
       })),
-      // Despesas
       ...dados.despesasAdministrativas.items.map((item) => ({
         categoria: "Despesas" as const,
         subcategoria: "Administrativas",
@@ -68,7 +57,6 @@ export default function Detalhamento() {
         tipo: "negativo" as const,
         status: "ok" as const,
       })),
-      // Resultado
       {
         categoria: "Resultado" as const,
         subcategoria: "Apuração",
@@ -106,13 +94,11 @@ export default function Detalhamento() {
     return linhas;
   }, [dados]);
 
-  // Filtrar dados
   const dadosFiltrados = useMemo(() => {
     const filtroLower = filtro.toLowerCase();
 
     return todosOsDados.filter((item) => {
-      const matchCategoria =
-        filtro === "todos" || item.categoria.toLowerCase() === filtroLower;
+      const matchCategoria = filtro === "todos" || item.categoria.toLowerCase() === filtroLower;
 
       const textoBusca = busca.trim().toLowerCase();
       const matchBusca =
@@ -125,7 +111,6 @@ export default function Detalhamento() {
     });
   }, [todosOsDados, filtro, busca]);
 
-  // Totais por categoria
   const totaisPorCategoria = useMemo(() => {
     return {
       receita: todosOsDados.filter((i) => i.categoria === "Receita").reduce((acc, i) => acc + i.valor, 0),
@@ -144,39 +129,35 @@ export default function Detalhamento() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <PageHeader
         titulo="Detalhamento Geral"
         subtitulo="Visão consolidada de todas as movimentações financeiras do exercício 2025"
         icone={Table2}
-        badges={[
-          { texto: `${todosOsDados.length} Registros`, className: "bg-slate-100 text-slate-700" },
-        ]}
+        badges={[{ texto: `${todosOsDados.length} Registros`, className: "bg-slate-100 text-slate-700" }]}
       />
 
-      {/* Resumo por Categoria */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
-          <p className="text-xs text-emerald-600 font-medium uppercase">Receitas</p>
-          <p className="text-xl font-bold text-emerald-700">{formatarMoeda(totaisPorCategoria.receita)}</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 sm:p-4 text-center">
+          <p className="text-[10px] sm:text-xs text-emerald-600 font-medium uppercase">Receitas</p>
+          <p className="text-base sm:text-xl font-bold text-emerald-700 break-words">{formatarMoeda(totaisPorCategoria.receita)}</p>
         </div>
-        <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 text-center">
-          <p className="text-xs text-rose-600 font-medium uppercase">Impostos</p>
-          <p className="text-xl font-bold text-rose-700">{formatarMoeda(totaisPorCategoria.impostos)}</p>
+        <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 sm:p-4 text-center">
+          <p className="text-[10px] sm:text-xs text-rose-600 font-medium uppercase">Impostos</p>
+          <p className="text-base sm:text-xl font-bold text-rose-700 break-words">{formatarMoeda(totaisPorCategoria.impostos)}</p>
         </div>
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
-          <p className="text-xs text-blue-600 font-medium uppercase">Custos</p>
-          <p className="text-xl font-bold text-blue-700">{formatarMoeda(totaisPorCategoria.custos)}</p>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 text-center">
+          <p className="text-[10px] sm:text-xs text-blue-600 font-medium uppercase">Custos</p>
+          <p className="text-base sm:text-xl font-bold text-blue-700 break-words">{formatarMoeda(totaisPorCategoria.custos)}</p>
         </div>
-        <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center">
-          <p className="text-xs text-purple-600 font-medium uppercase">Despesas</p>
-          <p className="text-xl font-bold text-purple-700">{formatarMoeda(totaisPorCategoria.despesas)}</p>
+        <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 sm:p-4 text-center">
+          <p className="text-[10px] sm:text-xs text-purple-600 font-medium uppercase">Despesas</p>
+          <p className="text-base sm:text-xl font-bold text-purple-700 break-words">{formatarMoeda(totaisPorCategoria.despesas)}</p>
         </div>
       </div>
 
-      {/* Filtros */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -191,10 +172,8 @@ export default function Detalhamento() {
             <Filter className="w-4 h-4 text-slate-400" />
             <select
               value={filtro}
-              onChange={(e) =>
-                setFiltro(e.target.value as "todos" | "receita" | "impostos" | "custos" | "despesas" | "resultado")
-              }
-              className="h-10 rounded-lg border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => setFiltro(e.target.value as any)}
+              className="h-10 w-full md:w-auto rounded-lg border border-slate-200 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="todos">Todas</option>
               <option value="receita">Receitas</option>
@@ -207,10 +186,9 @@ export default function Detalhamento() {
         </div>
       </div>
 
-      {/* Tabela */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse min-w-[900px]">
             <thead>
               <tr className="bg-slate-50">
                 <th className="text-left font-semibold p-4">Categoria</th>
@@ -223,16 +201,9 @@ export default function Detalhamento() {
 
             <tbody>
               {dadosFiltrados.map((item, index) => (
-                <tr
-                  key={index}
-                  className={`border-t border-slate-100 ${
-                    item.status === "alerta" ? "bg-amber-50" : "bg-white"
-                  }`}
-                >
+                <tr key={index} className={`border-t border-slate-100 ${item.status === "alerta" ? "bg-amber-50" : "bg-white"}`}>
                   <td className="p-4">
-                    <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full border text-xs font-medium ${categoriaCores[item.categoria]}`}
-                    >
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full border text-xs font-medium ${categoriaCores[item.categoria]}`}>
                       {item.categoria}
                     </span>
                   </td>
@@ -241,20 +212,14 @@ export default function Detalhamento() {
 
                   <td className="p-4 font-medium text-slate-800 max-w-md">
                     <div className="flex items-center gap-2">
-                      {item.status === "alerta" && (
-                        <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                      )}
+                      {item.status === "alerta" && <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />}
                       <span className="truncate">{item.descricao}</span>
                     </div>
                   </td>
 
                   <td
                     className={`p-4 text-right font-semibold tabular-nums ${
-                      item.tipo === "positivo"
-                        ? "text-emerald-600"
-                        : item.tipo === "negativo"
-                        ? "text-rose-600"
-                        : "text-amber-600"
+                      item.tipo === "positivo" ? "text-emerald-600" : item.tipo === "negativo" ? "text-rose-600" : "text-amber-600"
                     }`}
                   >
                     {item.tipo === "positivo" ? "" : "-"}
@@ -278,8 +243,7 @@ export default function Detalhamento() {
 
         <div className="p-4 border-t border-slate-200 bg-slate-50">
           <p className="text-sm text-slate-500">
-            Exibindo <strong>{dadosFiltrados.length}</strong> de{" "}
-            <strong>{todosOsDados.length}</strong> registros
+            Exibindo <strong>{dadosFiltrados.length}</strong> de <strong>{todosOsDados.length}</strong> registros
             {filtro !== "todos" && ` • Filtrado por: ${filtro}`}
             {busca && ` • Busca: "${busca}"`}
           </p>
