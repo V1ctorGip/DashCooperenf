@@ -48,7 +48,7 @@ export default function RankingList({ dados, total, limite = 5 }: Props) {
     <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Top Beneficiários</h3>
+          <h3 className="text-lg font-bold text-slate-800">Top Contratantes</h3>
           <p className="text-sm text-slate-500">Principais fontes de receita</p>
         </div>
         <div className="p-2 bg-amber-100 rounded-xl">
@@ -95,7 +95,7 @@ export default function RankingList({ dados, total, limite = 5 }: Props) {
 
       {dados.length > limite && (
         <p className="text-center text-sm text-slate-400 mt-4 pt-4 border-t border-slate-100">
-          +{dados.length - limite} outros Beneficiários
+          +{dados.length - limite} outros Contratantes
         </p>
       )}
     </div>

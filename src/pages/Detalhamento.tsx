@@ -28,9 +28,9 @@ export default function Detalhamento() {
   const todosOsDados: Linha[] = useMemo(() => {
     const linhas: Linha[] = [
       // Receitas
-      ...dados.receitasPorBeneficiário.map((item) => ({
+      ...dados.receitasPorContratante.map((item) => ({
         categoria: "Receita" as const,
-        subcategoria: "Receita por Beneficiário",
+        subcategoria: "Receita por Contratante",
         descricao: item.nome,
         valor: item.valor,
         tipo: "positivo" as const,

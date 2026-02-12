@@ -109,7 +109,7 @@ export default function PieChartCard({ titulo, subtitulo, dados, total, destaque
           </div>
         ))}
         {legendPayload.length > 6 && (
-          <p className="text-xs text-slate-400 text-center mt-2">+{legendPayload.length - 6} outros Beneficiários</p>
+          <p className="text-xs text-slate-400 text-center mt-2">+{legendPayload.length - 6} outros Contratantes</p>
         )}
       </div>
     </div>

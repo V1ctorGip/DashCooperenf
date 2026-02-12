@@ -16,7 +16,7 @@ export const DADOS_COOPERATIVA = {
 
   receitaOperacionalBruta: 11026304.46,
 
-  receitasPorBeneficiário: [
+  receitasPorContratante: [
     { nome: "INSTITUTO SINAI SERVICOS MEDICOS LTDA", valor: 3470064.11 },
     { nome: "INSTITUTO SINAI SERVICOS MEDICOS S.A.", valor: 2783316.9 },
     { nome: "HOSPITAL BOM JESUS LTDA", valor: 1099862.75 },

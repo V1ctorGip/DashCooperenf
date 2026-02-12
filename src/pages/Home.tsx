@@ -26,7 +26,7 @@ export default function Home() {
         <KPICard
           titulo="Receita Bruta"
           valor={formatarMoeda(dados.receitaOperacionalBruta)}
-          subtitulo="12 Beneficiários de serviço"
+          subtitulo="12 Contratantes de serviço"
           icone={DollarSign}
           tipo="positivo"
           destaque={true}
@@ -90,7 +90,7 @@ export default function Home() {
           <WaterfallChart dados={totais} />
         </div>
         <div>
-          <RankingList dados={dados.receitasPorBeneficiário} total={dados.receitaOperacionalBruta} limite={5} />
+          <RankingList dados={dados.receitasPorContratante} total={dados.receitaOperacionalBruta} limite={5} />
         </div>
       </div>
 

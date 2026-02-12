@@ -62,7 +62,7 @@ export default function Sidebar({ paginaAtual, collapsed, setCollapsed }: Sideba
   const menuItems: MenuItem[] = useMemo(
     () => [
       { id: "visao-geral", nome: "Visão Geral", icone: LayoutDashboard, path: "/" },
-      { id: "receitas", nome: "Receitas por Beneficiário", icone: Receipt, path: "/receitas" },
+      { id: "receitas", nome: "Receitas por Contratante", icone: Receipt, path: "/receitas" },
       { id: "impostos", nome: "Impostos e Incidências", icone: Landmark, path: "/impostos" },
       { id: "custos", nome: "Custos Cooperados", icone: Users, path: "/custos" },
       { id: "despesas", nome: "Despesas Administrativas", icone: Building2, path: "/despesas" },
