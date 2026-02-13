@@ -129,7 +129,7 @@ export default function Detalhamento() {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       <PageHeader
         titulo="Detalhamento Geral"
         subtitulo="Visão consolidada de todas as movimentações financeiras do exercício 2025"
@@ -137,28 +137,29 @@ export default function Detalhamento() {
         badges={[{ texto: `${todosOsDados.length} Registros`, className: "bg-slate-100 text-slate-700" }]}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 sm:p-4 text-center">
-          <p className="text-[10px] sm:text-xs text-emerald-600 font-medium uppercase">Receitas</p>
+      {/* evita “apertar” no notebook: 4 só no XL */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 sm:p-4 text-center min-w-0 overflow-hidden">
+          <p className="text-[10px] sm:text-xs text-emerald-600 font-medium uppercase break-words">Receitas</p>
           <p className="text-base sm:text-xl font-bold text-emerald-700 break-words">{formatarMoeda(totaisPorCategoria.receita)}</p>
         </div>
-        <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 sm:p-4 text-center">
-          <p className="text-[10px] sm:text-xs text-rose-600 font-medium uppercase">Impostos</p>
+        <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 sm:p-4 text-center min-w-0 overflow-hidden">
+          <p className="text-[10px] sm:text-xs text-rose-600 font-medium uppercase break-words">Impostos</p>
           <p className="text-base sm:text-xl font-bold text-rose-700 break-words">{formatarMoeda(totaisPorCategoria.impostos)}</p>
         </div>
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 text-center">
-          <p className="text-[10px] sm:text-xs text-blue-600 font-medium uppercase">Custos</p>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 text-center min-w-0 overflow-hidden">
+          <p className="text-[10px] sm:text-xs text-blue-600 font-medium uppercase break-words">Custos</p>
           <p className="text-base sm:text-xl font-bold text-blue-700 break-words">{formatarMoeda(totaisPorCategoria.custos)}</p>
         </div>
-        <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 sm:p-4 text-center">
-          <p className="text-[10px] sm:text-xs text-purple-600 font-medium uppercase">Despesas</p>
+        <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 sm:p-4 text-center min-w-0 overflow-hidden">
+          <p className="text-[10px] sm:text-xs text-purple-600 font-medium uppercase break-words">Despesas</p>
           <p className="text-base sm:text-xl font-bold text-purple-700 break-words">{formatarMoeda(totaisPorCategoria.despesas)}</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm min-w-0 overflow-hidden">
         <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
-          <div className="flex-1 relative">
+          <div className="flex-1 relative min-w-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               placeholder="Buscar por descrição, categoria..."
@@ -168,8 +169,8 @@ export default function Detalhamento() {
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 min-w-0">
+            <Filter className="w-4 h-4 text-slate-400 flex-shrink-0" />
             <select
               value={filtro}
               onChange={(e) => setFiltro(e.target.value as any)}
@@ -186,7 +187,7 @@ export default function Detalhamento() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm min-w-0">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse min-w-[900px]">
             <thead>
@@ -211,7 +212,7 @@ export default function Detalhamento() {
                   <td className="p-4 text-slate-600">{item.subcategoria}</td>
 
                   <td className="p-4 font-medium text-slate-800 max-w-md">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
                       {item.status === "alerta" && <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />}
                       <span className="truncate">{item.descricao}</span>
                     </div>
@@ -242,7 +243,7 @@ export default function Detalhamento() {
         </div>
 
         <div className="p-4 border-t border-slate-200 bg-slate-50">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 break-words">
             Exibindo <strong>{dadosFiltrados.length}</strong> de <strong>{todosOsDados.length}</strong> registros
             {filtro !== "todos" && ` • Filtrado por: ${filtro}`}
             {busca && ` • Busca: "${busca}"`}

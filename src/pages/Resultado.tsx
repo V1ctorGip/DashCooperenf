@@ -17,7 +17,7 @@ export default function Resultado() {
   const totalReservas = resultado.fundoReserva.valor + resultado.fates.valor;
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       <PageHeader
         titulo="Resultado e Reservas"
         subtitulo="Demonstrativo do resultado do exercício e destinação para reservas obrigatórias"
@@ -26,40 +26,49 @@ export default function Resultado() {
         alertaTexto="Verificar período"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard
-          titulo="Perdas Antes IRPJ/CSLL"
-          valor={formatarMoeda(resultado.perdasAntesIRPJ)}
-          subtitulo="Resultado antes das reservas"
-          icone={TrendingDown}
-          tipo="alerta"
-          destaque={true}
-        />
-        <KPICard
-          titulo="Fundo de Reserva (15%)"
-          valor={formatarMoeda(resultado.fundoReserva.valor)}
-          subtitulo="Reserva obrigatória"
-          icone={Shield}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="FATES (5%)"
-          valor={formatarMoeda(resultado.fates.valor)}
-          subtitulo="Assistência técnica e social"
-          icone={BookOpen}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="Perdas do Período"
-          valor={formatarMoeda(resultado.perdasPeriodo)}
-          subtitulo="Resultado final"
-          icone={TrendingDown}
-          tipo="negativo"
-        />
+      {/* 4 colunas só no XL */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <KPICard
+            titulo="Perdas Antes IRPJ/CSLL"
+            valor={formatarMoeda(resultado.perdasAntesIRPJ)}
+            subtitulo="Resultado antes das reservas"
+            icone={TrendingDown}
+            tipo="alerta"
+            destaque={true}
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="Fundo de Reserva (15%)"
+            valor={formatarMoeda(resultado.fundoReserva.valor)}
+            subtitulo="Reserva obrigatória"
+            icone={Shield}
+            tipo="neutro"
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="FATES (5%)"
+            valor={formatarMoeda(resultado.fates.valor)}
+            subtitulo="Assistência técnica e social"
+            icone={BookOpen}
+            tipo="neutro"
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="Perdas do Período"
+            valor={formatarMoeda(resultado.perdasPeriodo)}
+            subtitulo="Resultado final"
+            icone={TrendingDown}
+            tipo="negativo"
+          />
+        </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 lg:p-8 shadow-sm">
-        <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-6">
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 lg:p-8 shadow-sm min-w-0 overflow-hidden">
+        <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-6 break-words">
           Fluxo de Apuração do Resultado
         </h3>
 
@@ -95,7 +104,6 @@ export default function Resultado() {
                 <span className="font-medium text-rose-800 leading-snug break-words">
                   (-) Total de Deduções
                 </span>
-                {/* NÃO truncar no mobile: isso é informação */}
                 <p className="text-xs text-rose-600 leading-snug break-words">
                   Impostos + Custos + Despesas
                 </p>
@@ -132,9 +140,9 @@ export default function Resultado() {
           </div>
 
           {/* 4a / 4b */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* 4a */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-4 bg-blue-50 rounded-xl border border-blue-200 min-w-0 overflow-hidden">
               <div className="flex items-start sm:items-center gap-3 min-w-0">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                   4a
@@ -155,7 +163,7 @@ export default function Resultado() {
             </div>
 
             {/* 4b */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-4 bg-purple-50 rounded-xl border border-purple-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-4 bg-purple-50 rounded-xl border border-purple-200 min-w-0 overflow-hidden">
               <div className="flex items-start sm:items-center gap-3 min-w-0">
                 <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                   4b
@@ -180,15 +188,14 @@ export default function Resultado() {
             <div className="w-0.5 h-6 bg-slate-300" />
           </div>
 
-          {/* 5 - Aqui é onde quebrava (mobile vira 2 linhas) */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-5 sm:p-6 bg-slate-900 rounded-xl text-white">
+          {/* 5 */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-5 sm:p-6 bg-slate-900 rounded-xl text-white min-w-0 overflow-hidden">
             <div className="flex items-start sm:items-center gap-3 min-w-0">
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-900 font-bold flex-shrink-0">
                 5
               </div>
 
               <div className="min-w-0">
-                {/* NÃO truncar: estava suprimindo info */}
                 <span className="font-bold text-base sm:text-lg leading-snug break-words">
                   PERDAS DO PERÍODO
                 </span>
@@ -198,7 +205,6 @@ export default function Resultado() {
               </div>
             </div>
 
-            {/* No mobile pode quebrar linha; no desktop mantém numa linha */}
             <span className="text-2xl sm:text-3xl font-bold text-rose-400 tabular-nums break-words sm:whitespace-nowrap sm:text-right">
               -{formatarMoeda(resultado.perdasPeriodo)}
             </span>
@@ -206,10 +212,10 @@ export default function Resultado() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 sm:p-6 text-white shadow-lg shadow-blue-500/20">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-white/20 rounded-xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-w-0">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 sm:p-6 text-white shadow-lg shadow-blue-500/20 min-w-0 overflow-hidden">
+          <div className="flex items-center gap-3 mb-4 min-w-0">
+            <div className="p-3 bg-white/20 rounded-xl flex-shrink-0">
               <Shield className="w-6 h-6" />
             </div>
             <div className="min-w-0">
@@ -229,9 +235,9 @@ export default function Resultado() {
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-5 sm:p-6 text-white shadow-lg shadow-purple-500/20">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-white/20 rounded-xl">
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-5 sm:p-6 text-white shadow-lg shadow-purple-500/20 min-w-0 overflow-hidden">
+          <div className="flex items-center gap-3 mb-4 min-w-0">
+            <div className="p-3 bg-white/20 rounded-xl flex-shrink-0">
               <BookOpen className="w-6 h-6" />
             </div>
             <div className="min-w-0">
@@ -252,9 +258,8 @@ export default function Resultado() {
         </div>
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 sm:p-6">
-        <h4 className="font-semibold text-amber-800 mb-2">📊 Análise do Resultado</h4>
-        {/* Mantém todas as infos do rodapé, sem truncar */}
+      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 sm:p-6 overflow-hidden">
+        <h4 className="font-semibold text-amber-800 mb-2 break-words">📊 Análise do Resultado</h4>
         <p className="text-amber-700 text-sm sm:text-base break-words">
           O exercício de 2025 encerrou com perdas de <strong>{formatarMoeda(resultado.perdasPeriodo)}</strong>. Reservas totais:{" "}
           <strong>{formatarMoeda(totalReservas)}</strong>. Receita bruta: <strong>{formatarMoeda(totalReceita)}</strong>.

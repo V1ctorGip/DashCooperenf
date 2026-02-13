@@ -27,7 +27,7 @@ export default function Despesas() {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       <PageHeader
         titulo="Despesas Administrativas"
         subtitulo="Detalhamento dos gastos com estrutura administrativa, pessoal e eventos"
@@ -37,39 +37,52 @@ export default function Despesas() {
         ]}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard
-          titulo="Total Despesas Admin."
-          valor={formatarMoeda(despesas.total)}
-          subtitulo={`${((despesas.total / totalReceita) * 100).toFixed(2)}% da receita`}
-          icone={Building2}
-          tipo="neutro"
-          destaque={true}
-        />
-        <KPICard
-          titulo="Despesas Administrativas"
-          valor={formatarMoeda(391920.06)}
-          subtitulo={`${((391920.06 / despesas.total) * 100).toFixed(1)}% do total`}
-          icone={FileText}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="Despesas com Pessoal"
-          valor={formatarMoeda(198362.01)}
-          subtitulo={`${((198362.01 / despesas.total) * 100).toFixed(1)}% do total`}
-          icone={Users2}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="Eventos + Assistência"
-          valor={formatarMoeda(31145.79)}
-          subtitulo="Benefícios e integração"
-          icone={PartyPopper}
-          tipo="neutro"
-        />
+      {/* 4 colunas só no XL */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <KPICard
+            titulo="Total Despesas Admin."
+            valor={formatarMoeda(despesas.total)}
+            subtitulo={`${((despesas.total / totalReceita) * 100).toFixed(2)}% da receita`}
+            icone={Building2}
+            tipo="neutro"
+            destaque={true}
+          />
+        </div>
+
+        <div className="min-w-0">
+          <KPICard
+            titulo="Despesas Administrativas"
+            valor={formatarMoeda(391920.06)}
+            subtitulo={`${((391920.06 / despesas.total) * 100).toFixed(1)}% do total`}
+            icone={FileText}
+            tipo="neutro"
+          />
+        </div>
+
+        <div className="min-w-0">
+          <KPICard
+            titulo="Despesas com Pessoal"
+            valor={formatarMoeda(198362.01)}
+            subtitulo={`${((198362.01 / despesas.total) * 100).toFixed(1)}% do total`}
+            icone={Users2}
+            tipo="neutro"
+          />
+        </div>
+
+        <div className="min-w-0">
+          <KPICard
+            titulo="Eventos + Assistência"
+            valor={formatarMoeda(31145.79)}
+            subtitulo="Benefícios e integração"
+            icone={PartyPopper}
+            tipo="neutro"
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* cards por categoria — 4 só no XL */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
         {despesas.items.map((item, index) => {
           const Icone = icones[item.nome] || FileText;
           const cor = cores[item.nome] || "from-slate-400 to-slate-500";
@@ -78,32 +91,36 @@ export default function Despesas() {
           return (
             <div
               key={index}
-              className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow min-w-0"
+              className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow min-w-0 overflow-hidden"
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${cor} flex items-center justify-center mb-4`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${cor} flex items-center justify-center mb-4 flex-shrink-0`}>
                 <Icone className="w-6 h-6 text-white" />
               </div>
-              <h4 className="font-semibold text-slate-800 mb-1 truncate">{item.nome}</h4>
+              <h4 className="font-semibold text-slate-800 mb-1 break-words">{item.nome}</h4>
               <p className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 tabular-nums break-words">
                 {formatarMoeda(item.valor)}
               </p>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div className={`h-full bg-gradient-to-r ${cor} rounded-full`} style={{ width: `${percentual}%` }} />
               </div>
-              <p className="text-xs text-slate-500 mt-2">{percentual.toFixed(1)}% das despesas administrativas</p>
+              <p className="text-xs text-slate-500 mt-2 break-words">{percentual.toFixed(1)}% das despesas administrativas</p>
             </div>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PieChartCard titulo="Composição das Despesas" subtitulo="Distribuição por categoria" dados={despesas.items} total={despesas.total} />
-        <BarChartCard
-          titulo="Comparativo de Despesas"
-          subtitulo="Valores por categoria (em R$)"
-          dados={despesas.items}
-          horizontal={false}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-w-0">
+        <div className="min-w-0">
+          <PieChartCard titulo="Composição das Despesas" subtitulo="Distribuição por categoria" dados={despesas.items} total={despesas.total} />
+        </div>
+        <div className="min-w-0">
+          <BarChartCard
+            titulo="Comparativo de Despesas"
+            subtitulo="Valores por categoria (em R$)"
+            dados={despesas.items}
+            horizontal={false}
+          />
+        </div>
       </div>
 
       <DataTable
@@ -120,9 +137,9 @@ export default function Despesas() {
         valorReferencia={despesas.total}
       />
 
-      <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-5 sm:p-6">
-        <h4 className="font-semibold text-indigo-800 mb-2">📊 Análise de Eficiência</h4>
-        <p className="text-indigo-700 text-sm sm:text-base">
+      <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-5 sm:p-6 overflow-hidden">
+        <h4 className="font-semibold text-indigo-800 mb-2 break-words">📊 Análise de Eficiência</h4>
+        <p className="text-indigo-700 text-sm sm:text-base break-words">
           As despesas administrativas representam <strong>{((despesas.total / totalReceita) * 100).toFixed(2)}%</strong> da receita bruta.
         </p>
       </div>

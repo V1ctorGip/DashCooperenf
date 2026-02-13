@@ -19,7 +19,7 @@ export default function Receitas() {
   const mediaReceita = totalReceita / dados.receitasPorContratante.length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       <PageHeader
         titulo="Receitas por Contratante"
         subtitulo="Detalhamento das receitas por fonte pagadora - serviços prestados em 2025"
@@ -29,52 +29,65 @@ export default function Receitas() {
         ]}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard
-          titulo="Receita Total"
-          valor={formatarMoeda(totalReceita)}
-          subtitulo="Receita operacional bruta"
-          icone={Receipt}
-          tipo="positivo"
-          destaque={true}
-        />
-        <KPICard
-          titulo="Maior Contratante"
-          valor={formatarMoeda(maiorContratante.valor)}
-          subtitulo={`${((maiorContratante.valor / totalReceita) * 100).toFixed(1)}% do total`}
-          icone={Building2}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="Top 3 Contratantes"
-          valor={formatarMoeda(top3Total)}
-          subtitulo={`${((top3Total / totalReceita) * 100).toFixed(1)}% do total`}
-          icone={Building2}
-          tipo="neutro"
-        />
-        <KPICard
-          titulo="Média por Contratante"
-          valor={formatarMoeda(mediaReceita)}
-          subtitulo={`${dados.receitasPorContratante.length} fontes pagadoras`}
-          icone={Building2}
-          tipo="neutro"
-        />
+      {/* 4 colunas só no XL (resolve notebook com sidebar) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <KPICard
+            titulo="Receita Total"
+            valor={formatarMoeda(totalReceita)}
+            subtitulo="Receita operacional bruta"
+            icone={Receipt}
+            tipo="positivo"
+            destaque={true}
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="Maior Contratante"
+            valor={formatarMoeda(maiorContratante.valor)}
+            subtitulo={`${((maiorContratante.valor / totalReceita) * 100).toFixed(1)}% do total`}
+            icone={Building2}
+            tipo="neutro"
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="Top 3 Contratantes"
+            valor={formatarMoeda(top3Total)}
+            subtitulo={`${((top3Total / totalReceita) * 100).toFixed(1)}% do total`}
+            icone={Building2}
+            tipo="neutro"
+          />
+        </div>
+        <div className="min-w-0">
+          <KPICard
+            titulo="Média por Contratante"
+            valor={formatarMoeda(mediaReceita)}
+            subtitulo={`${dados.receitasPorContratante.length} fontes pagadoras`}
+            icone={Building2}
+            tipo="neutro"
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PieChartCard
-          titulo="Composição da Receita"
-          subtitulo="Participação de cada Contratante na receita total"
-          dados={receitasOrdenadas}
-          total={totalReceita}
-          destaquePrimeiro={true}
-        />
-        <BarChartCard
-          titulo="Ranking de Contratantes"
-          subtitulo="Valores por fonte pagadora (em R$)"
-          dados={receitasOrdenadas}
-          horizontal={true}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-w-0">
+        <div className="min-w-0">
+          <PieChartCard
+            titulo="Composição da Receita"
+            subtitulo="Participação de cada Contratante na receita total"
+            dados={receitasOrdenadas}
+            total={totalReceita}
+            destaquePrimeiro={true}
+          />
+        </div>
+        <div className="min-w-0">
+          <BarChartCard
+            titulo="Ranking de Contratantes"
+            subtitulo="Valores por fonte pagadora (em R$)"
+            dados={receitasOrdenadas}
+            horizontal={true}
+          />
+        </div>
       </div>
 
       <DataTable
@@ -92,9 +105,9 @@ export default function Receitas() {
         destaquePrimeiro={true}
       />
 
-      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
-        <h4 className="font-semibold text-blue-800 mb-2">📊 Análise de Concentração</h4>
-        <p className="text-blue-700">
+      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 sm:p-6 overflow-hidden">
+        <h4 className="font-semibold text-blue-800 mb-2 break-words">📊 Análise de Concentração</h4>
+        <p className="text-blue-700 text-sm sm:text-base break-words">
           Os 3 maiores Contratantes representam <strong>{((top3Total / totalReceita) * 100).toFixed(1)}%</strong> da receita total.
           O Instituto Sinai (somando S.A. e LTDA) é responsável por aproximadamente <strong>56,7%</strong> de toda a receita,
           indicando alta concentração em um único grupo econômico.
